@@ -4,7 +4,7 @@ Public website and request intake for Cable TV and Broadband in Angadical and Ch
 
 - **New Connection** and **Report an Issue** return short references such as `MCV-100001`.
 - **Track Request** lets customers recover recent references using their mobile number.
-- Mock WhatsApp and SMS alerts work locally. Live alerts use WhatsApp Cloud API and Twilio.
+- Mock WhatsApp and SMS alerts work locally. Live alerts use WhatsApp Cloud API and either TextBee or Twilio for SMS.
 
 ## Run with Docker Compose
 
@@ -49,7 +49,7 @@ API together. PostgreSQL is reachable through Render's private network.
 Open the generated HTTPS address and sign in with username `staging` and the
 generated `STAGING_PASSWORD` from the web service's environment settings.
 The health check exposes only readiness. Use synthetic submissions in staging.
-The image forces mock notifications, and Render's free database expires after
+Both channels default to mock mode, and Render's free database expires after
 30 days. Free services sleep when idle, so the first visit can take longer.
 
 For a smoke test against staging, set `SMOKE_URL` to its HTTPS origin and
@@ -85,12 +85,53 @@ Set `PUBLIC_PHONE` to the confirmed public business number in E.164 format to di
 
 ### Enable live alerts
 
-Mock mode is the default. To enable live alerts, set `NOTIFICATION_MODE=live` and configure all listed provider settings in `.env`. `NOTIFICATION_RECIPIENT` is the private operator number in E.164 format. It can differ from the public contact number.
+Use Docker Compose's local `.env` or the Render web service's **Environment**
+tab. Keep credentials out of Git. Set `NOTIFICATION_RECIPIENT` to the private
+operator's number in E.164 format (for example, `+91` followed by the mobile
+number). The public website contact is configured independently.
 
-- **WhatsApp Cloud API** requires the Graph API version, sender phone number ID, access token, and approved template name and language. Use a body template with five positional text parameters in this order: request type, reference, service, locality, callback number. Configure the operator as an eligible recipient. [WhatsApp Cloud API](https://developers.facebook.com/docs/whatsapp/cloud-api/)
-- **SMS** uses Twilio Messaging. Supply the account SID, auth token, and approved sender or Messaging Service SID. Confirm the account and sender can deliver to the operator’s Indian number. [Twilio Messages API](https://www.twilio.com/docs/messaging/api/message-resource)
+**TextBee SMS**
 
-Recreate the backend after updating its environment. Use a separate database for production so synthetic requests and mock delivery records stay in development. For public deployment, provide HTTPS at the ingress, set intake rate limits there, use a strong database password, and restrict database access. This repository includes build and smoke-test automation. Deployment is independent of CI.
+1. Register an Android device with an active SMS-capable SIM in TextBee, leave
+   incoming SMS forwarding off, and confirm the device is online. Use the
+   TextBee dashboard to send a test SMS to the operator.
+2. Copy the device ID from **Devices** and create an API key. Set
+   `SMS_PROVIDER=textbee`, `TEXTBEE_DEVICE_ID`, and `TEXTBEE_API_KEY`.
+3. Set `SMS_MODE=live` and leave `WHATSAPP_MODE=mock` while testing SMS.
+   Look for the SMS on the operator's phone. The backend logs a TextBee batch
+   ID for accepted sends so you can look them up in the TextBee dashboard.
+
+[TextBee setup](https://textbee.dev/docs/getting-started) · [TextBee sending API](https://textbee.dev/docs/sending-sms/sending-sms)
+
+**WhatsApp Cloud API**
+
+1. In Meta's WhatsApp API Setup, add the operator as an eligible test
+   recipient and confirm a sample message reaches their phone. Register a
+   business sender and set up an access token for ongoing delivery.
+2. Create a template such as `mcv_request_alert` with five positional body
+   fields in this order: request type, reference, service, locality, callback
+   number. For example, `Media Cable Vision received a {{1}} request. Reference:
+   {{2}}. Service: {{3}}. Locality: {{4}}. Callback: {{5}}.` Use synthetic
+   examples when submitting the template for Meta review.
+3. Once the template is available to the sender, set `WHATSAPP_GRAPH_VERSION`,
+   `WHATSAPP_PHONE_NUMBER_ID`, `WHATSAPP_TOKEN`, `WHATSAPP_TEMPLATE` and
+   `WHATSAPP_LANGUAGE` to the values from Meta. Set `WHATSAPP_MODE=live` to
+   test a submission with the approved template.
+
+[Meta WhatsApp Cloud API](https://developers.facebook.com/docs/whatsapp/cloud-api/)
+
+After changing settings, redeploy the Render service or recreate the Docker
+Compose backend. Let mock jobs finish before enabling live alerts. Submit a new
+synthetic request and check the operator's handset. Each channel set to `live`
+sends an independent alert. Each channel set to `mock` logs locally. Provider
+acceptance in the outbox indicates a queued send, and handset delivery must be
+checked with the provider or on the phone. Render's free service can sleep when
+idle, which pauses the outbox worker and can delay retries.
+
+Existing deployments can still use `NOTIFICATION_MODE` as the default for both
+channels and `SMS_PROVIDER=twilio` with the Twilio settings in `.env.example`.
+Use a separate database for production. For public deployment, provide HTTPS at
+the ingress, rate-limit intake and lookup, and restrict database access.
 
 ## Tests
 

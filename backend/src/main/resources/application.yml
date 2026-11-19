@@ -15,16 +15,20 @@ management:
         include: health
 mcv:
   notifications:
-    mode: ${NOTIFICATION_MODE:mock}
     recipient: ${NOTIFICATION_RECIPIENT:}
     interval-ms: ${NOTIFICATION_INTERVAL_MS:5000}
     whatsapp:
+      mode: ${WHATSAPP_MODE:${NOTIFICATION_MODE:mock}}
       version: ${WHATSAPP_GRAPH_VERSION:}
       phone-number-id: ${WHATSAPP_PHONE_NUMBER_ID:}
       token: ${WHATSAPP_TOKEN:}
       template: ${WHATSAPP_TEMPLATE:}
       language: ${WHATSAPP_LANGUAGE:en}
     sms:
+      mode: ${SMS_MODE:${NOTIFICATION_MODE:mock}}
+      provider: ${SMS_PROVIDER:twilio}
+      textbee-api-key: ${TEXTBEE_API_KEY:}
+      textbee-device-id: ${TEXTBEE_DEVICE_ID:}
       account-sid: ${TWILIO_ACCOUNT_SID:}
       token: ${TWILIO_AUTH_TOKEN:}
       sender: ${TWILIO_SENDER:}

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.JdkClientHttpRequestFactory;
@@ -29,9 +30,10 @@ record Notification(long id, String reference, RequestKind kind, Channel channel
 }
 
 @ConfigurationProperties("mcv.notifications")
-record NotificationSettings(String mode, String recipient, WhatsApp whatsapp, Sms sms) {
-    record WhatsApp(String version, String phoneNumberId, String token, String template, String language) {}
-    record Sms(String accountSid, String token, String sender) {}
+record NotificationSettings(String recipient, WhatsApp whatsapp, Sms sms) {
+    record WhatsApp(String mode, String version, String phoneNumberId, String token, String template, String language) {}
+    record Sms(String mode, String provider, String accountSid, String token, String sender,
+               String textbeeApiKey, String textbeeDeviceId) {}
 }
 
 @Component
@@ -40,18 +42,28 @@ class ConfiguredNotificationGateway implements NotificationGateway {
     private final NotificationSettings settings;
     private final RestClient http;
 
+    @Autowired
     ConfiguredNotificationGateway(NotificationSettings settings, RestClient.Builder builder) {
+        this(settings, createClient(builder));
+    }
+
+    ConfiguredNotificationGateway(NotificationSettings settings, RestClient http) {
         this.settings = settings;
+        this.http = http;
         validate(settings);
+    }
+
+    private static RestClient createClient(RestClient.Builder builder) {
         var client = HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(4)).build();
         var factory = new JdkClientHttpRequestFactory(client);
         factory.setReadTimeout(Duration.ofSeconds(8));
-        this.http = builder.requestFactory(factory).build();
+        return builder.requestFactory(factory).build();
     }
 
     @Override
     public void send(Notification notice) {
-        if ("mock".equals(settings.mode())) {
+        String mode = notice.channel() == Channel.WHATSAPP ? settings.whatsapp().mode() : settings.sms().mode();
+        if ("mock".equals(mode)) {
             log.info("Mock {} notification accepted for {}", notice.channel(), notice.reference());
             return;
         }
@@ -86,6 +98,10 @@ class ConfiguredNotificationGateway implements NotificationGateway {
         var config = settings.sms();
         String message = "Media Cable Vision: %s %s. %s, %s. Callback: %s.".formatted(
             notice.type(), notice.reference(), notice.service().replace('_', ' '), oneLine(notice.locality()), notice.phone());
+        if ("textbee".equals(config.provider())) {
+            textbee(notice, config, message);
+            return;
+        }
         String senderField = config.sender().startsWith("MG") ? "MessagingServiceSid" : "From";
         String form = "To=" + encode(settings.recipient()) + "&" + senderField + "=" + encode(config.sender())
             + "&Body=" + encode(message);
@@ -96,6 +112,23 @@ class ConfiguredNotificationGateway implements NotificationGateway {
             .retrieve().toBodilessEntity();
     }
 
+    private void textbee(Notification notice, NotificationSettings.Sms config, String message) {
+        var response = http.post().uri("https://api.textbee.dev/api/v1/gateway/send-sms")
+            .header("x-api-key", config.textbeeApiKey())
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(Map.of("recipients", List.of(settings.recipient()),
+                "message", message, "deviceId", config.textbeeDeviceId()))
+            .retrieve().body(TextbeeResponse.class);
+        if (response == null || response.data() == null || !response.data().success()
+                || !matches(response.data().smsBatchId(), "[A-Za-z0-9_-]{1,128}")) {
+            throw new NotificationRejected(200, false);
+        }
+        log.info("TextBee accepted SMS for {}, batch {}", notice.reference(), response.data().smsBatchId());
+    }
+
+    record TextbeeResponse(TextbeeBatch data) {}
+    record TextbeeBatch(boolean success, String smsBatchId) {}
+
     private static String encode(String value) {
         return URLEncoder.encode(value, StandardCharsets.UTF_8);
     }
@@ -105,20 +138,32 @@ class ConfiguredNotificationGateway implements NotificationGateway {
     }
 
     private static void validate(NotificationSettings settings) {
-        if ("mock".equals(settings.mode())) return;
         var wa = settings.whatsapp();
         var sms = settings.sms();
-        if (!"live".equals(settings.mode())
-                || !matches(settings.recipient(), "\\+[1-9][0-9]{7,14}")
-                || !matches(wa.version(), "v[0-9]+\\.[0-9]+")
+        if (!matches(wa.mode(), "mock|live") || !matches(sms.mode(), "mock|live")) {
+            throw new IllegalStateException("Notification channel modes must be mock or live.");
+        }
+        boolean liveWhatsApp = "live".equals(wa.mode());
+        boolean liveSms = "live".equals(sms.mode());
+        if ((liveWhatsApp || liveSms) && !matches(settings.recipient(), "\\+[1-9][0-9]{7,14}")) {
+            throw new IllegalStateException("Set NOTIFICATION_RECIPIENT to the operator number in E.164 format.");
+        }
+        if (liveWhatsApp && (!matches(wa.version(), "v[0-9]+\\.[0-9]+")
                 || !matches(wa.phoneNumberId(), "[0-9]+")
                 || !matches(wa.template(), "[a-z0-9_]+")
                 || !matches(wa.language(), "[a-z]{2,3}(_[A-Z]{2})?")
-                || wa.token().isBlank()
-                || !matches(sms.accountSid(), "AC[0-9a-fA-F]{32}")
+                || !matches(wa.token(), "\\S+"))) {
+            throw new IllegalStateException("Set all WhatsApp credentials and template settings for live WhatsApp.");
+        }
+        if (!liveSms) return;
+        if ("textbee".equals(sms.provider())) {
+            if (!matches(sms.textbeeDeviceId(), "[0-9a-fA-F]{24}") || !matches(sms.textbeeApiKey(), "\\S+")) {
+                throw new IllegalStateException("Set TEXTBEE_DEVICE_ID and TEXTBEE_API_KEY for live SMS through TextBee.");
+            }
+        } else if (!"twilio".equals(sms.provider()) || !matches(sms.accountSid(), "AC[0-9a-fA-F]{32}")
                 || !matches(sms.sender(), "MG[0-9a-fA-F]{32}|\\+[1-9][0-9]{7,14}|[A-Za-z0-9 ]{1,11}")
-                || sms.token().isBlank()) {
-            throw new IllegalStateException("Set a valid notification mode and all provider settings for live mode.");
+                || !matches(sms.token(), "\\S+")) {
+            throw new IllegalStateException("Set a supported SMS_PROVIDER and its credentials for live SMS.");
         }
     }
 

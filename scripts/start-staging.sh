@@ -3,7 +3,6 @@ set -eu
 
 : "${STAGING_PASSWORD:?Set STAGING_PASSWORD before starting staging}"
 export DATABASE_URL="${DATABASE_URL:-jdbc:postgresql://${POSTGRES_HOST:?Set POSTGRES_HOST or DATABASE_URL}:5432/${POSTGRES_DB:?Set POSTGRES_DB}}"
-export NOTIFICATION_MODE=mock
 
 /opt/java/openjdk/bin/java -Xms32m -Xmx128m -XX:MaxMetaspaceSize=112m \
   -XX:ReservedCodeCacheSize=32m -XX:ActiveProcessorCount=2 -jar backend.jar \
