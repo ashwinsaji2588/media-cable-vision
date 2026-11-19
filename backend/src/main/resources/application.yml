@@ -1,0 +1,30 @@
+spring:
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/media_cable_vision}
+    username: ${POSTGRES_USER:mcv}
+    password: ${POSTGRES_PASSWORD:mcv_local}
+  liquibase:
+    change-log: classpath:db/changelog.sql
+server:
+  error:
+    include-message: never
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+mcv:
+  notifications:
+    mode: ${NOTIFICATION_MODE:mock}
+    recipient: ${NOTIFICATION_RECIPIENT:}
+    interval-ms: ${NOTIFICATION_INTERVAL_MS:5000}
+    whatsapp:
+      version: ${WHATSAPP_GRAPH_VERSION:}
+      phone-number-id: ${WHATSAPP_PHONE_NUMBER_ID:}
+      token: ${WHATSAPP_TOKEN:}
+      template: ${WHATSAPP_TEMPLATE:}
+      language: ${WHATSAPP_LANGUAGE:en}
+    sms:
+      account-sid: ${TWILIO_ACCOUNT_SID:}
+      token: ${TWILIO_AUTH_TOKEN:}
+      sender: ${TWILIO_SENDER:}
