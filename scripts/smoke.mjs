@@ -2,6 +2,15 @@ import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
 
 const base = process.env.SMOKE_URL ?? "http://localhost:3000";
+const password = process.env.STAGING_PASSWORD;
+const authorization = password
+  ? { Authorization: `Basic ${Buffer.from(`staging:${password}`).toString("base64")}` }
+  : {};
+const request = (path, options = {}) => fetch(base + path, {
+  ...options,
+  headers: { ...authorization, ...options.headers },
+  redirect: "error",
+});
 for (const [path, title] of [
   ["/", "Reliable connections."], ["/broadband", "Broadband in Angadical"],
   ["/cable-tv", "Cable TV in Angadical"], ["/service-areas", "Chandanappally"],
@@ -9,7 +18,7 @@ for (const [path, title] of [
   ["/report-issue", "Report a service issue"], ["/privacy", "Privacy Policy"],
   ["/track-request", "Track your request"],
 ]) {
-  const page = await fetch(base + path);
+  const page = await request(path);
   assert.equal(page.status, 200, path);
   assert.ok((await page.text()).includes(title), path);
 }
@@ -21,7 +30,7 @@ const data = {
 const references = [];
 for (const kind of ["connections", "issues"]) {
   const headers = { "Content-Type": "application/json", "Idempotency-Key": randomUUID() };
-  const submit = payload => fetch(`${base}/api/requests/${kind}`, {
+  const submit = payload => request(`/api/requests/${kind}`, {
     method: "POST", headers, body: JSON.stringify(payload)
   });
   const invalid = await submit({ ...data, phone: "invalid" });
@@ -37,7 +46,7 @@ for (const kind of ["connections", "issues"]) {
   assert.equal((await repeat.json()).reference, reference);
   assert.equal((await submit({ ...data, locality: "Angadical" })).status, 409);
 }
-const lookup = phone => fetch(`${base}/api/requests/lookup`, {
+const lookup = phone => request("/api/requests/lookup", {
   method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ phone })
 });
 const result = await lookup("+91 " + data.phone);

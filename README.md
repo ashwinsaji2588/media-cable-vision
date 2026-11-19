@@ -39,6 +39,24 @@ The named database volume persists across restarts. Only the web frontend binds 
 | `scripts/smoke.mjs` | End-to-end checks for a running local stack |
 | `.github/workflows/ci.yml` | Build, test and Compose smoke checks |
 
+## Free staging on Render
+
+In the Render Dashboard, create a Blueprint from this GitHub repository. Review
+the plan before deploying. Both resources in `render.yaml` are set to Free.
+The Docker image runs the public Next.js server and a loopback-only Spring Boot
+API together. PostgreSQL is reachable through Render's private network.
+
+Open the generated HTTPS address and sign in with username `staging` and the
+generated `STAGING_PASSWORD` from the web service's environment settings.
+The health check exposes only readiness. Use synthetic submissions in staging.
+The image forces mock notifications, and Render's free database expires after
+30 days. Free services sleep when idle, so the first visit can take longer.
+
+For a smoke test against staging, set `SMOKE_URL` to its HTTPS origin and
+`STAGING_PASSWORD` to the generated password in your shell, then run
+`node scripts/smoke.mjs`. Keep the password in the host's secret settings and
+out of Git.
+
 ## Develop without building containers
 
 Use Node.js 24, Java 21, Maven 3.9, and PostgreSQL 17. Start a local PostgreSQL database named `media_cable_vision` with user `mcv` and password `mcv_local`, or set `DATABASE_URL` (JDBC), `POSTGRES_USER`, and `POSTGRES_PASSWORD` in the backend environment. To run only the database in Docker, use `docker compose up -d db` with a temporary Compose override that maps port 5432 to loopback. Spring Boot applies Liquibase migrations on startup.
