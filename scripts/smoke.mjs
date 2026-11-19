@@ -23,6 +23,19 @@ for (const [path, title] of [
   assert.ok((await page.text()).includes(title), path);
 }
 
+for (const asset of [
+  "/logo.svg",
+  "/_next/image?url=%2Fconnected-home.jpg&w=640&q=75",
+  ...["asianet", "kerala-vision", "bsnl"].map(
+    name => `/_next/image?url=%2Fproviders%2F${name}.webp&w=256&q=75`,
+  ),
+]) {
+  const image = await request(asset);
+  assert.equal(image.status, 200, asset);
+  assert.match(image.headers.get("content-type") ?? "", /^image\//, asset);
+  await image.arrayBuffer();
+}
+
 const data = {
   name: "Smoke Test", phone: "9876543210", service: "BROADBAND",
   locality: "Chandanappally", details: "Synthetic smoke test request."
