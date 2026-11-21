@@ -17,7 +17,6 @@ import { SpeedCalculator } from "./components/SpeedCalculator";
 import { TvChannelExplorer } from "./components/TvChannelExplorer";
 import { CoverageChecker } from "./components/CoverageChecker";
 import { FaqAccordion } from "./components/FaqAccordion";
-import { ShimmerButton } from "./components/BorderBeam";
 import { InstallationTimeline } from "./components/InstallationTimeline";
 
 export function generateMetadata() {
@@ -58,7 +57,7 @@ export default function Home() {
               available at your address and arrange a connection.
             </p>
             <div className="actions heroActions">
-              <ShimmerButton href="/new-connection">Request a connection →</ShimmerButton>
+              <Button href="/new-connection">Request a connection</Button>
               <div className="heroSupportLinks">
                 <Link href="/report-issue">Report an issue</Link>
                 <Link href="/track-request">Track a request</Link>

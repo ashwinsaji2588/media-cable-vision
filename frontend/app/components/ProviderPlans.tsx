@@ -12,7 +12,6 @@ import {
   Plan,
 } from "../plans-data";
 import { Icon3D } from "./Icon3D";
-import { BorderBeam } from "./BorderBeam";
 
 export function ProviderPlans() {
   const [selectedProvider, setSelectedProvider] = useState<string>("ALL");
@@ -122,13 +121,10 @@ export function ProviderPlans() {
                 transition={{ duration: 0.25 }}
                 className={`relative flex flex-col justify-between p-6 sm:p-7 rounded-3xl border transition-all hover:shadow-xl hover:-translate-y-1 ${
                   plan.popular
-                    ? "bg-gradient-to-b from-sky-50/70 via-white to-white border-[#1d4ed8]/50 shadow-md shadow-blue-500/10 ring-1 ring-[#1d4ed8]/30 overflow-hidden"
+                    ? "bg-gradient-to-b from-blue-50/50 via-white to-white border-[#1d4ed8] shadow-lg shadow-blue-500/10 ring-2 ring-[#1d4ed8]/20"
                     : "bg-white border-slate-200 shadow-xs hover:border-slate-300"
                 }`}
               >
-                {plan.popular && (
-                  <BorderBeam duration={3.5} colorFrom="#38bdf8" colorTo="#2563eb" />
-                )}
                 {/* Popular / Special Badge */}
                 {plan.badge && (
                   <span

@@ -4,7 +4,6 @@ import React from "react";
 import Link from "next/link";
 import { motion } from "motion/react";
 import { Icon3D } from "./Icon3D";
-import { BorderBeam } from "./BorderBeam";
 
 interface StepItem {
   number: string;
