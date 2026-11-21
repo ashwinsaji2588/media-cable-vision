@@ -18,10 +18,9 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v5
 
-      - name: Trigger Render Deploy Hook (if configured)
-        if: env.RENDER_DEPLOY_HOOK_URL != ''
+      - name: Trigger Render Deploy Hook
         env:
-          RENDER_DEPLOY_HOOK_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+          RENDER_DEPLOY_HOOK_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL || 'https://api.render.com/deploy/srv-dbvci0utlv9c738fre00?key=lQnkogena7s' }}
         run: |
           echo "Triggering automated deployment webhook on Render..."
           response=$(curl -s -w "\n%{http_code}" -X POST "$RENDER_DEPLOY_HOOK_URL")
