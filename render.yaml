@@ -4,6 +4,7 @@ services:
     runtime: docker
     plan: free
     region: singapore
+    branch: main
     dockerfilePath: ./Dockerfile.staging
     healthCheckPath: /api/health
     envVars:
