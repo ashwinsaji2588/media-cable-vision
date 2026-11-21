@@ -17,6 +17,7 @@ export function Brand() {
 export function NavLinks() {
   return [
     ["/", "Home"],
+    ["/plans", "Plans"],
     ["/broadband", "Broadband"],
     ["/cable-tv", "Cable TV"],
     ["/service-areas", "Service Areas"],

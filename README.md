@@ -105,6 +105,13 @@ number). The public website contact is configured independently.
 
 **WhatsApp Cloud API**
 
+For a local delivery test before template approval, use Meta's test sender and
+temporary access token with `WHATSAPP_TEMPLATE=hello_world`,
+`WHATSAPP_LANGUAGE=en_US`, `WHATSAPP_MODE=live`, and `SMS_MODE=mock`.
+Set `NOTIFICATION_RECIPIENT` to your verified test number, then submit one
+synthetic request locally. The app sends Meta's fixed greeting in this mode.
+Set `WHATSAPP_MODE=mock` again after testing if you are done with live sends.
+
 1. In Meta's WhatsApp API Setup, add the operator as an eligible test
    recipient and confirm a sample message reaches their phone. Register a
    business sender and set up an access token for ongoing delivery.

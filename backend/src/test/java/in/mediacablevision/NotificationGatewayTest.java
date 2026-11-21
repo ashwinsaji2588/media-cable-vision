@@ -51,6 +51,21 @@ class NotificationGatewayTest {
     }
 
     @Test
+    void whatsappSampleTemplateOmitsCustomAlertParameters() {
+        server.expect(requestTo("https://graph.facebook.com/v27.0/123456/messages"))
+            .andExpect(jsonPath("$.template.name").value("hello_world"))
+            .andExpect(jsonPath("$.template.language.code").value("en_US"))
+            .andExpect(jsonPath("$.template.components").doesNotExist())
+            .andRespond(withSuccess());
+        var whatsapp = new NotificationSettings.WhatsApp(
+            "live", "v27.0", "123456", "test-meta-token", "hello_world", "en_US");
+        var sms = new NotificationSettings.Sms("mock", "textbee", "", "", "", "", "");
+        var gateway = new ConfiguredNotificationGateway(new NotificationSettings(RECIPIENT, whatsapp, sms), builder.build());
+        gateway.send(notice(Channel.WHATSAPP));
+        server.verify();
+    }
+
+    @Test
     void textbeeMustReturnAnAcceptedBatch() {
         server.expect(requestTo("https://api.textbee.dev/api/v1/gateway/send-sms"))
             .andRespond(withSuccess("""

@@ -1,5 +1,7 @@
 import { Intro } from "../ui";
 import { LookupForm } from "./lookup-form";
+import { Icon3D } from "../components/Icon3D";
+import { ScrollReveal } from "../components/MotionWrappers";
 
 export const metadata = { title: "Track Request" };
 
@@ -11,7 +13,12 @@ export default function TrackRequest() {
         report.
       </Intro>
       <section className="wrap section">
-        <LookupForm />
+        <ScrollReveal>
+          <div className="flex items-center justify-center mb-6">
+            <Icon3D name="track" size={72} />
+          </div>
+          <LookupForm />
+        </ScrollReveal>
       </section>
     </>
   );

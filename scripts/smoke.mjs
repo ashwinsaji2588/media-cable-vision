@@ -12,7 +12,7 @@ const request = (path, options = {}) => fetch(base + path, {
   redirect: "error",
 });
 for (const [path, title] of [
-  ["/", "Reliable connections."], ["/broadband", "Broadband in Angadical"],
+  ["/", "Broadband and Cable TV,"], ["/broadband", "Broadband in Angadical"],
   ["/cable-tv", "Cable TV in Angadical"], ["/service-areas", "Chandanappally"],
   ["/contact", "Contact Media Cable Vision"], ["/new-connection", "Request a new connection"],
   ["/report-issue", "Report a service issue"], ["/privacy", "Privacy Policy"],

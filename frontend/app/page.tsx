@@ -2,6 +2,21 @@ import Image from "next/image";
 import Link from "next/link";
 import { areas, businessPhone, maps, providers, services } from "./site";
 import { Button, ContactLinks } from "./ui";
+import { HeroThreeCanvas } from "./components/HeroThreeCanvas";
+import { Icon3D } from "./components/Icon3D";
+import {
+  HeroReveal,
+  LivePulsePill,
+  ScrollReveal,
+  Tilt3DCard,
+} from "./components/MotionWrappers";
+import { FiberTrailAnime } from "./components/FiberTrailAnime";
+import { LiveMetricStats } from "./components/LiveMetricStats";
+import { ProviderPlans } from "./components/ProviderPlans";
+import { SpeedCalculator } from "./components/SpeedCalculator";
+import { TvChannelExplorer } from "./components/TvChannelExplorer";
+import { CoverageChecker } from "./components/CoverageChecker";
+import { FaqAccordion } from "./components/FaqAccordion";
 
 export function generateMetadata() {
   return process.env.SITE_URL ? { alternates: { canonical: "/" } } : {};
@@ -17,6 +32,7 @@ export default function Home() {
     hasMap: maps,
     areaServed: areas,
   };
+
   return (
     <>
       <script
@@ -25,130 +41,243 @@ export default function Home() {
           __html: JSON.stringify(data).replace(/</g, "\\u003c"),
         }}
       />
+
+      {/* Hero Section with Three.js 3D Interactive Canvas & Motion Stagger */}
       <section className="hero">
+        <HeroThreeCanvas />
         <div className="wrap heroGrid">
-          <div>
-            <p className="eyebrow locality">
-              Serving Angadical &amp; Chandanappally
-            </p>
+          <HeroReveal>
+            <LivePulsePill text="Fiber Broadband & Cable Network Active" />
             <h1>
-              Reliable connections.
-              <br />
-              <span>Local support.</span>
+              Broadband and Cable TV, <span>close to home.</span>
             </h1>
             <p className="heroLead">
-              Cable TV and broadband for your home in Angadical and
-              Chandanappally. Get help setting up a connection or with a service
-              you already use.
+              Serving Angadical and Chandanappally. We’ll help you check what’s
+              available at your address and arrange a connection.
             </p>
-            <div className="actions">
-              <Button href="/new-connection">Get Connected</Button>
-              <Button href="/report-issue" secondary>
-                Report an Issue
-              </Button>
+            <div className="actions heroActions">
+              <Button href="/new-connection">Request a connection</Button>
+              <div className="heroSupportLinks">
+                <Link href="/report-issue">Report an issue</Link>
+                <Link href="/track-request">Track a request</Link>
+              </div>
+            </div>
+          </HeroReveal>
+
+          <div className="heroImageFrame">
+            <div className="floatingHeroBadge floatingHeroBadge--top">
+              <Icon3D name="broadband" size={26} animateFloat={false} />
+              <span>Gigabit Fiber</span>
+            </div>
+            <div className="heroImageWrapper">
+              <Image
+                className="heroImage"
+                src="/connected-home.jpg"
+                alt="A living room with a television and Wi-Fi router"
+                width={1536}
+                height={1024}
+                sizes="(max-width: 760px) 100vw, 55vw"
+                priority
+              />
+            </div>
+            <div className="floatingHeroBadge floatingHeroBadge--bottom">
+              <Icon3D name="cable-tv" size={26} animateFloat={false} />
+              <span>Crystal HD Cable</span>
             </div>
           </div>
-          <Image
-            className="heroImage"
-            src="/connected-home.jpg"
-            alt="A living room with a television and Wi-Fi router"
-            width={1536}
-            height={1024}
-            sizes="(max-width: 760px) 100vw, 55vw"
-            priority
-          />
         </div>
       </section>
+
+      {/* Anime.js Kinetic Metrics & Credibility Bar */}
+      <LiveMetricStats />
+
+      {/* Services with 3D Tilt Cards & 3dicons */}
       <section className="wrap section">
-        <p className="eyebrow">Our services</p>
-        <h2>Stay connected at home</h2>
+        <ScrollReveal>
+          <h2>Find the right service for your home</h2>
+        </ScrollReveal>
         <div className="serviceGrid">
-          {Object.entries(services).map(([slug, service]) => (
-            <Link className="card serviceCard" key={slug} href={`/${slug}`}>
-              <span className="iconTile" aria-hidden="true">
-                {service.icon}
-              </span>
-              <div>
-                <h3>{service.title}</h3>
-                <p>{service.summary}</p>
-                <span className="textLink">Explore {service.title}</span>
-              </div>
-            </Link>
-          ))}
+          {Object.entries(services).map(([slug, service], index) => {
+            const isBroadband = slug === "broadband";
+            return (
+              <ScrollReveal key={slug} delay={index * 0.15}>
+                <Tilt3DCard className={`serviceCard serviceCard--${slug} h-full`}>
+                  <div className="serviceCardHeader">
+                    <div>
+                      <h3>{service.title}</h3>
+                      <p>{service.summary}</p>
+                    </div>
+                    <Icon3D
+                      name={isBroadband ? "broadband" : "cable-tv"}
+                      size={60}
+                      className="shrink-0"
+                    />
+                  </div>
+                  <Link className="textLink" href={`/${slug}`}>
+                    {isBroadband
+                      ? "Explore home broadband →"
+                      : "Explore Cable TV options →"}
+                  </Link>
+                </Tilt3DCard>
+              </ScrollReveal>
+            );
+          })}
         </div>
       </section>
-      <section className="providerBand">
-        <div className="wrap providerRow">
-          <div>
-            <h2>Supported providers</h2>
-            <p>Availability depends on your address and service.</p>
-          </div>
-          <ul>
-            {providers.map(({ name, logo }) => (
-              <li key={name}>
-                <Image src={logo} alt="" width={86} height={40} />
-                <span>{name}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
+
+      {/* Compare Provider Plans (Asianet, Kerala Vision, BSNL) */}
       <section className="wrap section">
-        <h2>How it works</h2>
+        <ScrollReveal>
+          <ProviderPlans />
+        </ScrollReveal>
+      </section>
+
+      {/* Interactive Bandwidth & Speed Calculator */}
+      <section className="wrap section">
+        <ScrollReveal>
+          <SpeedCalculator />
+        </ScrollReveal>
+      </section>
+
+      {/* Interactive Digital Cable TV Channel Explorer */}
+      <section className="wrap section">
+        <ScrollReveal>
+          <TvChannelExplorer />
+        </ScrollReveal>
+      </section>
+
+      {/* Instant Ward / Landmark Coverage Checker */}
+      {/* Interactive PIN Code & Coverage Checker */}
+      <section className="wrap section" id="coverage">
+        <ScrollReveal>
+          <CoverageChecker />
+        </ScrollReveal>
+      </section>
+
+      {/* Supported Providers Band */}
+      <section className="providerBand">
+        <ScrollReveal>
+          <div className="wrap providerRow">
+            <div>
+              <h2>Supported providers</h2>
+              <p>Availability depends on your address and service.</p>
+            </div>
+            <ul>
+              {providers.map(({ name, logo }) => (
+                <li key={name}>
+                  <Image src={logo} alt="" width={86} height={40} />
+                  <span>{name}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </ScrollReveal>
+      </section>
+
+      {/* How it Works with Anime.js Fiber Trail & 3D Process Icons */}
+      <section className="wrap section">
+        <ScrollReveal>
+          <h2>How it works</h2>
+        </ScrollReveal>
+
+        {/* Dynamic Anime.js Fiber Connector */}
+        <FiberTrailAnime />
+
         <ol className="steps">
           {[
-            [
-              "Send a request",
-              "Choose a service and share your contact and locality details.",
-            ],
-            [
-              "Hear from our team",
-              "We’ll call to confirm availability or learn more about your issue.",
-            ],
-            [
-              "Arrange a visit",
-              "We’ll work with you to arrange a connection or service visit when needed.",
-            ],
-          ].map(([title, detail], i) => (
-            <li className="card" key={title}>
-              <span className="iconTile" aria-hidden="true">
-                {i + 1}
-              </span>
-              <h3>{title}</h3>
-              <p>{detail}</p>
-            </li>
+            {
+              title: "Send a request",
+              detail:
+                "Choose a service and share your contact and locality details.",
+              icon: "request" as const,
+            },
+            {
+              title: "Hear from our team",
+              detail:
+                "We’ll call to confirm availability or learn more about your issue.",
+              icon: "phone" as const,
+            },
+            {
+              title: "Arrange a visit",
+              detail:
+                "We’ll work with you to arrange a connection or service visit when needed.",
+              icon: "calendar" as const,
+            },
+          ].map((step, i) => (
+            <ScrollReveal key={step.title} delay={i * 0.12}>
+              <li className="card stepCardModern">
+                <div>
+                  <div className="stepIconHeader">
+                    <span className="iconTile" aria-hidden="true">
+                      {i + 1}
+                    </span>
+                    <Icon3D name={step.icon} size={42} animateFloat={false} />
+                  </div>
+                  <h3>{step.title}</h3>
+                  <p>{step.detail}</p>
+                </div>
+              </li>
+            </ScrollReveal>
           ))}
         </ol>
       </section>
+
+      {/* Coverage Panel with 3D Location Pin */}
       <section className="wrap homePanel">
-        <div className="coverage">
-          <div>
-            <p className="eyebrow">Service areas</p>
-            <h2>Angadical &amp; Chandanappally</h2>
-            <p>
-              Check availability at your address or ask about a nearby locality.
-            </p>
-            <a className="textLink" href={maps}>
-              Google Maps directions
-            </a>
-          </div>
-          <Button href="/service-areas" secondary>
-            View Service Areas
-          </Button>
-        </div>
-      </section>
-      <section className="wrap homePanel">
-        <div className="support">
-          <div>
-            <p className="eyebrow">Need assistance?</p>
-            <h2>Experiencing a connection issue?</h2>
-            <p>Share your service details and we’ll follow up by phone.</p>
-            <div className="contactInline">
-              <ContactLinks directions={false} />
+        <ScrollReveal>
+          <div className="coverage panelGridWith3D">
+            <div>
+              <p className="eyebrow">Service areas</p>
+              <h2>Angadical &amp; Chandanappally</h2>
+              <p>
+                Check availability at your address or ask about a nearby locality.
+              </p>
+              <a className="textLink" href={maps}>
+                Google Maps directions →
+              </a>
+              <div className="mt-4">
+                <Button href="/service-areas" secondary>
+                  View Service Areas
+                </Button>
+              </div>
             </div>
+            <Icon3D name="location" size={80} className="shrink-0" />
           </div>
-          <Button href="/report-issue">Report an Issue</Button>
-        </div>
+        </ScrollReveal>
+      </section>
+
+      {/* Support Panel with 3D Support Headset */}
+      <section className="wrap homePanel">
+        <ScrollReveal>
+          <div className="support panelGridWith3D">
+            <div>
+              <p className="eyebrow">Need assistance?</p>
+              <h2>Experiencing a connection issue?</h2>
+              <p>Share your service details and we’ll follow up by phone.</p>
+              <div className="contactInline mt-3">
+                <ContactLinks directions={false} />
+              </div>
+              <div className="mt-5">
+                <Button href="/report-issue">Report an Issue</Button>
+              </div>
+            </div>
+            <Icon3D name="support" size={84} className="shrink-0" />
+          </div>
+        </ScrollReveal>
+      </section>
+
+      {/* Frequently Asked Questions with Spring Accordion */}
+      <section className="wrap section">
+        <ScrollReveal>
+          <div className="text-center max-w-xl mx-auto mb-8">
+            <p className="eyebrow">Clear Answers</p>
+            <h2>Frequently Asked Questions</h2>
+            <p className="text-slate-500 text-sm mt-1">
+              Everything you need to know about connections, providers, and support.
+            </p>
+          </div>
+          <FaqAccordion />
+        </ScrollReveal>
       </section>
     </>
   );

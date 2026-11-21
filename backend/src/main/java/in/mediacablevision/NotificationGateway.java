@@ -4,6 +4,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.net.http.HttpClient;
 import java.time.Duration;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.slf4j.Logger;
@@ -81,17 +82,23 @@ class ConfiguredNotificationGateway implements NotificationGateway {
 
     private void whatsapp(Notification notice) {
         var config = settings.whatsapp();
-        var parameters = List.of(notice.type(), notice.reference(), notice.service().replace('_', ' '),
+        var template = new HashMap<String, Object>();
+        template.put("name", config.template());
+        template.put("language", Map.of("code", config.language()));
+        // Meta's test sender provides a fixed template with no body variables.
+        if (!"hello_world".equals(config.template())) {
+            var parameters = List.of(notice.type(), notice.reference(), notice.service().replace('_', ' '),
                 oneLine(notice.locality()), notice.phone())
-            .stream().map(value -> Map.of("type", "text", "text", value)).toList();
-        var template = Map.of("name", config.template(), "language", Map.of("code", config.language()),
-            "components", List.of(Map.of("type", "body", "parameters", parameters)));
+                .stream().map(value -> Map.of("type", "text", "text", value)).toList();
+            template.put("components", List.of(Map.of("type", "body", "parameters", parameters)));
+        }
         http.post().uri("https://graph.facebook.com/{version}/{number}/messages", config.version(), config.phoneNumberId())
             .headers(headers -> headers.setBearerAuth(config.token()))
             .contentType(MediaType.APPLICATION_JSON)
             .body(Map.of("messaging_product", "whatsapp", "to", settings.recipient().substring(1),
                 "type", "template", "template", template))
             .retrieve().toBodilessEntity();
+        log.info("WhatsApp accepted notification for {}", notice.reference());
     }
 
     private void sms(Notification notice) {

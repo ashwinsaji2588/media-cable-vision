@@ -1,0 +1,495 @@
+{
+  "lastSynced": "2026-11-20T13:14:09.994Z",
+  "providerStatus": [
+    "KCCL / Kerala Vision: Verified live package repository (HTTP 200)",
+    "Asianet Digital TV: Verified live registration portal (HTTP 200)",
+    "KFON: Using verified baseline tariffs",
+    "Extranet: Verified live endpoint (HTTP 200)",
+    "BSNL: Verified live endpoint (HTTP 200)"
+  ],
+  "totalPlans": 26,
+  "plans": [
+    {
+      "id": "asianet-60",
+      "name": "Asianet Speed Plus 60",
+      "provider": "Asianet",
+      "providerLogo": "/providers/asianet.webp",
+      "category": "broadband",
+      "price": 499,
+      "speed": "60 Mbps",
+      "data": "Unlimited (3300 GB)",
+      "features": [
+        "Symmetrical Upload & Download",
+        "Free Dual-Band Wi-Fi 5 Router",
+        "Low Latency Gaming & Zoom",
+        "Immediate Local Wire Splicing"
+      ],
+      "serviceCode": "BROADBAND"
+    },
+    {
+      "id": "asianet-100-ott",
+      "name": "Asianet Super 100 + OTT",
+      "provider": "Asianet",
+      "providerLogo": "/providers/asianet.webp",
+      "category": "broadband",
+      "price": 699,
+      "speed": "100 Mbps",
+      "data": "Unlimited (3300 GB)",
+      "badge": "Most Popular",
+      "popular": true,
+      "ottApps": [
+        "Disney+ Hotstar",
+        "SonyLIV",
+        "Zee5",
+        "SunNXT"
+      ],
+      "features": [
+        "Dual-Band Gigabit Wi-Fi 6 Router",
+        "4 Major OTT Subscriptions Included",
+        "Ultra-low Buffer 4K Streaming",
+        "Priority 24h Installation in Angadical"
+      ],
+      "serviceCode": "BROADBAND"
+    },
+    {
+      "id": "asianet-300-ultra",
+      "name": "Asianet Ultra 300 Pro",
+      "provider": "Asianet",
+      "providerLogo": "/providers/asianet.webp",
+      "category": "broadband",
+      "price": 999,
+      "speed": "300 Mbps",
+      "data": "Unlimited (4000 GB)",
+      "badge": "Gigabit Grade",
+      "ottApps": [
+        "Disney+ Hotstar",
+        "SonyLIV",
+        "Zee5",
+        "SunNXT",
+        "Discovery+"
+      ],
+      "features": [
+        "High-Density Mesh Wi-Fi Support",
+        "Simultaneous 4K/8K Multi-Screen",
+        "Esports Ping Optimization (<8ms)",
+        "Dedicated Optical Fiber Port"
+      ],
+      "serviceCode": "BROADBAND"
+    },
+    {
+      "id": "kv-freedom-50",
+      "name": "Kerala Vision Freedom 50",
+      "provider": "Kerala Vision",
+      "providerLogo": "/providers/kerala-vision.webp",
+      "category": "broadband",
+      "price": 449,
+      "speed": "50 Mbps",
+      "data": "Unlimited (3000 GB)",
+      "badge": "Budget Friendly",
+      "features": [
+        "Extensive Local Kerala Line Mesh",
+        "High Resistance to Weather & Power Cuts",
+        "Free Wi-Fi Optical Router",
+        "Local Operator Support Line"
+      ],
+      "serviceCode": "BROADBAND"
+    },
+    {
+      "id": "kv-superfast-100",
+      "name": "Kerala Vision Superfast 100",
+      "provider": "Kerala Vision",
+      "providerLogo": "/providers/kerala-vision.webp",
+      "category": "broadband",
+      "price": 649,
+      "speed": "100 Mbps",
+      "data": "Unlimited (4000 GB)",
+      "popular": true,
+      "badge": "Best Value",
+      "ottApps": [
+        "SunNXT",
+        "ManoramaMAX",
+        "JioCinema"
+      ],
+      "features": [
+        "Huge 4000 GB Monthly Allowance",
+        "Regional Malayalam OTT Bundle",
+        "Dual-Band Wi-Fi Gateway",
+        "Local Chandanappally Line Support"
+      ],
+      "serviceCode": "BROADBAND"
+    },
+    {
+      "id": "kv-combo-all-in-one",
+      "name": "Kerala Vision All-in-One Combo",
+      "provider": "Kerala Vision",
+      "providerLogo": "/providers/kerala-vision.webp",
+      "category": "combo",
+      "price": 799,
+      "speed": "100 Mbps",
+      "channels": "280+ HD Cable Channels",
+      "data": "Unlimited Fiber Data",
+      "badge": "Internet + TV Bundle",
+      "popular": true,
+      "features": [
+        "100 Mbps Fiber + 280+ Digital TV Channels",
+        "Single Fiber Drop (No Clutter Wires)",
+        "HD Smart Set-top Box Included",
+        "Combined Single Monthly Billing"
+      ],
+      "serviceCode": "BOTH"
+    },
+    {
+      "id": "kfon-basic-plus",
+      "name": "KFON Basic Plus",
+      "provider": "KFON",
+      "providerLogo": "/providers/kfon.svg",
+      "category": "broadband",
+      "price": 349,
+      "speed": "30 Mbps",
+      "data": "Unlimited (3000 GB)",
+      "badge": "Government Fiber",
+      "features": [
+        "State-wide Optical Backbone Infrastructure",
+        "High Reliability Underground Fiber Drops",
+        "Subsidized Public Tariffs",
+        "Official enteKFON Self-care Support"
+      ],
+      "serviceCode": "BROADBAND"
+    },
+    {
+      "id": "kfon-turbo-100",
+      "name": "KFON Turbo 100",
+      "provider": "KFON",
+      "providerLogo": "/providers/kfon.svg",
+      "category": "broadband",
+      "price": 599,
+      "speed": "100 Mbps",
+      "data": "Unlimited (4000 GB)",
+      "popular": true,
+      "badge": "High Capacity",
+      "features": [
+        "4000 GB High Speed Monthly FUP",
+        "Direct KSEB Substation Backhaul",
+        "Low Ping for Education & Work",
+        "Free Optical Fiber Termination Box"
+      ],
+      "serviceCode": "BROADBAND"
+    },
+    {
+      "id": "kfon-zenith-200",
+      "name": "KFON Zenith 200",
+      "provider": "KFON",
+      "providerLogo": "/providers/kfon.svg",
+      "category": "broadband",
+      "price": 999,
+      "speed": "200 Mbps",
+      "data": "Unlimited (4000 GB)",
+      "features": [
+        "200 Mbps Symmetrical Throughput",
+        "Enterprise Grade Optical Link",
+        "Multi-User Video Conferencing",
+        "24/7 State Network Operations Center"
+      ],
+      "serviceCode": "BROADBAND"
+    },
+    {
+      "id": "extranet-starter-40",
+      "name": "Extranet Starter 40",
+      "provider": "Extranet",
+      "providerLogo": "/providers/extranet.svg",
+      "category": "broadband",
+      "price": 399,
+      "speed": "40 Mbps",
+      "data": "Unlimited High-Speed",
+      "badge": "Affordable Fiber",
+      "features": [
+        "Fast Local Franchisee Activation",
+        "True Unlimited Data with No Hidden FUP",
+        "Zero Contract Lock-in",
+        "Local Technician On-Call"
+      ],
+      "serviceCode": "BROADBAND"
+    },
+    {
+      "id": "extranet-speed-100",
+      "name": "Extranet Super 100",
+      "provider": "Extranet",
+      "providerLogo": "/providers/extranet.svg",
+      "category": "broadband",
+      "price": 599,
+      "speed": "100 Mbps",
+      "data": "Unlimited High-Speed",
+      "popular": true,
+      "badge": "Franchisee Choice",
+      "features": [
+        "Free Gigabit Dual-Band Wi-Fi Router",
+        "HD Streaming on Multiple Televisions",
+        "Direct Ring Redundancy in Pathanamthitta",
+        "Same-Day Installation Option"
+      ],
+      "serviceCode": "BROADBAND"
+    },
+    {
+      "id": "bsnl-fibre-basic-plus",
+      "name": "BSNL Bharat Fibre Basic Plus",
+      "provider": "BSNL",
+      "providerLogo": "/providers/bsnl.webp",
+      "category": "broadband",
+      "price": 499,
+      "speed": "60 Mbps",
+      "data": "Unlimited (3300 GB)",
+      "badge": "Nationwide",
+      "features": [
+        "Free Unlimited Landline Voice Calls",
+        "Reliable Central Exchange Gateway",
+        "Nationwide Routing Backbone",
+        "No Contract Lock-in"
+      ],
+      "serviceCode": "BROADBAND"
+    },
+    {
+      "id": "bsnl-fibre-value-100",
+      "name": "BSNL Bharat Fibre Value 100",
+      "provider": "BSNL",
+      "providerLogo": "/providers/bsnl.webp",
+      "category": "broadband",
+      "price": 799,
+      "speed": "100 Mbps",
+      "data": "Unlimited (3300 GB)",
+      "ottApps": [
+        "Disney+ Hotstar",
+        "SonyLIV"
+      ],
+      "features": [
+        "Free Unlimited Calling across India",
+        "Dual-Band Wi-Fi Router Setup",
+        "OTT Entertainment Pack",
+        "Subsidized Hardware Installation"
+      ],
+      "serviceCode": "BROADBAND"
+    },
+    {
+      "id": "asianet-tv-economy",
+      "name": "Asianet Kerala Economy (KSD01)",
+      "provider": "Asianet",
+      "providerLogo": "/providers/asianet.webp",
+      "category": "cable-tv",
+      "price": 191,
+      "channels": "138 Channels (Surya, Zee Keralam + FTA)",
+      "badge": "Basic Regional",
+      "features": [
+        "Surya TV & Zee Keralam included",
+        "All Free-To-Air Regional Malayalam Channels",
+        "ACV News & Local Community Channels",
+        "Total Price includes 18% GST (₹162 + GST)"
+      ],
+      "serviceCode": "CABLE_TV"
+    },
+    {
+      "id": "asianet-tv-value2",
+      "name": "Asianet Kerala Value-2 (KSD11)",
+      "provider": "Asianet",
+      "providerLogo": "/providers/asianet.webp",
+      "category": "cable-tv",
+      "price": 248,
+      "channels": "146 Channels (10 Pay Channels)",
+      "badge": "Value Pack",
+      "features": [
+        "Asianet, Surya, Surya Movies, Surya Music",
+        "Asianet News, Flowers, Mazhavil Manorama",
+        "Popular Malayalam GEC & Movies",
+        "Total Price includes 18% GST (₹210 + GST)"
+      ],
+      "serviceCode": "CABLE_TV"
+    },
+    {
+      "id": "asianet-tv-budget",
+      "name": "Asianet Kerala Budget (KSD03)",
+      "provider": "Asianet",
+      "providerLogo": "/providers/asianet.webp",
+      "category": "cable-tv",
+      "price": 289,
+      "channels": "180 Channels (19 Pay Channels)",
+      "badge": "Smart Pick",
+      "features": [
+        "Asianet, Surya TV, Zee Keralam, Asianet Movies",
+        "Star Sports Select & National News included",
+        "Discovery, Animal Planet & Infotainment",
+        "Total Price includes 18% GST (₹245 + GST)"
+      ],
+      "serviceCode": "CABLE_TV"
+    },
+    {
+      "id": "asianet-tv-classic",
+      "name": "Asianet Kerala Classic (KSD04)",
+      "provider": "Asianet",
+      "providerLogo": "/providers/asianet.webp",
+      "category": "cable-tv",
+      "price": 320,
+      "channels": "191 Channels (30 Pay Channels)",
+      "badge": "Family Classic",
+      "popular": true,
+      "features": [
+        "30 Leading Pay Channels: Asianet, Surya, Zee",
+        "Full Sports: Star Sports 1, 2, 3",
+        "Full Kids: Hungama, Sonic, Nick, Kochu TV",
+        "Total Price includes 18% GST (₹271 + GST)"
+      ],
+      "serviceCode": "CABLE_TV"
+    },
+    {
+      "id": "asianet-tv-gold",
+      "name": "Asianet Kerala Gold (KSD06)",
+      "provider": "Asianet",
+      "providerLogo": "/providers/asianet.webp",
+      "category": "cable-tv",
+      "price": 439,
+      "channels": "220 Channels (59 Pay Channels)",
+      "badge": "All-Rounder",
+      "features": [
+        "59 Top Pay Channels in Malayalam, Tamil & English",
+        "Complete Sony Sports Ten & Star Sports Suite",
+        "Discovery, Nat Geo, History TV18 & Sony BBC Earth",
+        "Total Price includes 18% GST (₹372 + GST)"
+      ],
+      "serviceCode": "CABLE_TV"
+    },
+    {
+      "id": "asianet-tv-hd-gold",
+      "name": "Asianet Kerala HD Gold (HDK01)",
+      "provider": "Asianet",
+      "providerLogo": "/providers/asianet.webp",
+      "category": "cable-tv",
+      "price": 454,
+      "channels": "210 Channels (48 Pay Channels + HD)",
+      "badge": "HD Best Seller",
+      "popular": true,
+      "features": [
+        "Full 1080i Asianet HD, Star Sports HD & Movies",
+        "Dolby Digital 5.1 Surround Sound Support",
+        "All major regional SD & HD Entertainment",
+        "Total Price includes 18% GST (₹385 + GST)"
+      ],
+      "serviceCode": "CABLE_TV"
+    },
+    {
+      "id": "asianet-tv-hd-platinum",
+      "name": "Asianet Kerala HD Platinum (HDK02)",
+      "provider": "Asianet",
+      "providerLogo": "/providers/asianet.webp",
+      "category": "cable-tv",
+      "price": 602,
+      "channels": "232 Channels (70 Pay Channels + Full HD)",
+      "badge": "Premium HD",
+      "features": [
+        "70 Leading Pay Channels + All HD Broadcasters",
+        "Cricket, Football, Tennis & Premier League in HD",
+        "Complete Kids, English Movies (Star/Sony) & Documentaries",
+        "Total Price includes 18% GST (₹510 + GST)"
+      ],
+      "serviceCode": "CABLE_TV"
+    },
+    {
+      "id": "kccl-classic-prime",
+      "name": "Kerala Vision Classic Prime",
+      "provider": "Kerala Vision",
+      "providerLogo": "/providers/kerala-vision.webp",
+      "category": "cable-tv",
+      "price": 260,
+      "channels": "150+ Channels",
+      "badge": "KCCL Prime",
+      "features": [
+        "Sun SD Bouquet 4 (Surya TV, Surya Movies, Surya Music, Kochu TV)",
+        "Zee Prime Malayalam SD & Flowers TV Included",
+        "Full Malayalam News, Devotional & Community Channels",
+        "Official KCCL Registered Package"
+      ],
+      "serviceCode": "CABLE_TV"
+    },
+    {
+      "id": "kccl-economy",
+      "name": "Kerala Vision Economy",
+      "provider": "Kerala Vision",
+      "providerLogo": "/providers/kerala-vision.webp",
+      "category": "cable-tv",
+      "price": 280,
+      "channels": "180+ Channels",
+      "badge": "Popular Budget",
+      "features": [
+        "Sun SD Malayalam Basic + Zee Prime Malayalam",
+        "Colors Tamil, Kalaigner Bouquet & Regional Music",
+        "Local Angadical & Chandanappally Community Feeds",
+        "Weather-Shielded Optical Distribution Line"
+      ],
+      "serviceCode": "CABLE_TV"
+    },
+    {
+      "id": "kccl-sports-premium",
+      "name": "Kerala Vision Sports Premium",
+      "provider": "Kerala Vision",
+      "providerLogo": "/providers/kerala-vision.webp",
+      "category": "cable-tv",
+      "price": 400,
+      "channels": "220+ Channels (Full Sports)",
+      "badge": "Live Sports SD",
+      "features": [
+        "Star Sports 1, Star Sports 2, Star Sports 3",
+        "Sony Sports Ten 1, Sony Sports Ten 2, Eurosport",
+        "All Malayalam GEC + Kids (Cartoon Network, Pogo, Sony YAY)",
+        "Official KCCL Sports Bouquet"
+      ],
+      "serviceCode": "CABLE_TV"
+    },
+    {
+      "id": "kccl-digital-premium-hd",
+      "name": "Kerala Vision Digital Premium HD",
+      "provider": "Kerala Vision",
+      "providerLogo": "/providers/kerala-vision.webp",
+      "category": "cable-tv",
+      "price": 500,
+      "channels": "230+ Channels (50+ HD)",
+      "badge": "HD Family",
+      "popular": true,
+      "features": [
+        "Over 50+ Crystal Clear HD Channels",
+        "Colors HD, Star Sports HD, Sony HD & Asianet HD",
+        "Discovery HD, Animal Planet HD & National Geographic HD",
+        "Smart HD Set-top Box Compatibility"
+      ],
+      "serviceCode": "CABLE_TV"
+    },
+    {
+      "id": "kccl-ultimate",
+      "name": "Kerala Vision Ultimate",
+      "provider": "Kerala Vision",
+      "providerLogo": "/providers/kerala-vision.webp",
+      "category": "cable-tv",
+      "price": 550,
+      "channels": "250+ Channels (Complete SD Pack)",
+      "features": [
+        "Complete Channel Bouquet without Blackouts",
+        "All Malayalam, Tamil, Hindi, English Movies & Infotainment",
+        "Full Sports, News & Music Channels Included",
+        "Official KCCL Ultimate Pack"
+      ],
+      "serviceCode": "CABLE_TV"
+    },
+    {
+      "id": "kccl-sports-hd",
+      "name": "Kerala Vision Sports Premium HD",
+      "provider": "Kerala Vision",
+      "providerLogo": "/providers/kerala-vision.webp",
+      "category": "cable-tv",
+      "price": 650,
+      "channels": "260+ Channels (65+ HD Channels)",
+      "badge": "Ultimate Sports HD",
+      "features": [
+        "All Sports in 1080i HD (Star Sports HD, Sony Sports HD)",
+        "Cricket, ISL Football, EPL & Grand Slams",
+        "Full HD Entertainment, Movies & Kids Channels",
+        "Priority Local Splicing & Support"
+      ],
+      "serviceCode": "CABLE_TV"
+    }
+  ]
+}

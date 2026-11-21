@@ -7,7 +7,7 @@ import "@fontsource-variable/manrope";
 import "./style.css";
 import { Brand, Button, ContactLinks, NavLinks } from "./ui";
 import { MobileMenu } from "./mobile-menu";
-import { businessPhone } from "./site";
+import { FloatingDock } from "./components/FloatingDock";
 
 export async function generateMetadata(): Promise<Metadata> {
   await connection();
@@ -26,7 +26,6 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function Layout({ children }: { children: ReactNode }) {
   await connection();
-  const phone = businessPhone();
   return (
     <html lang="en-IN">
       <body>
@@ -69,6 +68,7 @@ export default async function Layout({ children }: { children: ReactNode }) {
               <div>
                 <h2>Get in touch</h2>
                 <Link href="/report-issue">Report an Issue</Link>
+                <Link href="/track-request">Track a Request</Link>
                 <ContactLinks />
               </div>
             </div>
@@ -79,14 +79,11 @@ export default async function Layout({ children }: { children: ReactNode }) {
           </div>
         </footer>
         <nav className="mobileActions" aria-label="Quick actions">
-          {phone ? (
-            <a href={`tel:${phone}`}>Call</a>
-          ) : (
-            <Link href="/contact">Contact</Link>
-          )}
           <Link href="/new-connection">New Connection</Link>
           <Link href="/report-issue">Report Issue</Link>
+          <Link href="/track-request">Track Request</Link>
         </nav>
+        <FloatingDock />
       </body>
     </html>
   );
