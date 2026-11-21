@@ -78,11 +78,6 @@ export default async function Layout({ children }: { children: ReactNode }) {
             </div>
           </div>
         </footer>
-        <nav className="mobileActions" aria-label="Quick actions">
-          <Link href="/new-connection">New Connection</Link>
-          <Link href="/report-issue">Report Issue</Link>
-          <Link href="/track-request">Track Request</Link>
-        </nav>
         <FloatingDock />
       </body>
     </html>
