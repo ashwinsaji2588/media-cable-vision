@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { areas, businessPhone, maps, providers, services } from "./site";
+import { areas, businessPhone, maps, services } from "./site";
 import { Button, ContactLinks } from "./ui";
 import { HeroThreeCanvas } from "./components/HeroThreeCanvas";
 import { Icon3D } from "./components/Icon3D";
@@ -18,6 +18,9 @@ import { TvChannelExplorer } from "./components/TvChannelExplorer";
 import { CoverageChecker } from "./components/CoverageChecker";
 import { FaqAccordion } from "./components/FaqAccordion";
 import { InstallationTimeline } from "./components/InstallationTimeline";
+import { InfiniteMarquee } from "./components/InfiniteMarquee";
+import { CustomerTrustBento } from "./components/CustomerTrustBento";
+import { PreFooterCta } from "./components/PreFooterCta";
 
 export function generateMetadata() {
   return process.env.SITE_URL ? { alternates: { canonical: "/" } } : {};
@@ -126,6 +129,12 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Customer Trust Bento Grid (Linear & Aceternity UI inspired) */}
+      <CustomerTrustBento />
+
+      {/* Authorized Providers & Entertainment Infinite Marquee */}
+      <InfiniteMarquee />
+
       {/* Compare Provider Plans (Asianet, Kerala Vision, BSNL) */}
       <section className="wrap section">
         <ScrollReveal>
@@ -152,26 +161,6 @@ export default function Home() {
       <section className="wrap section" id="coverage">
         <ScrollReveal>
           <CoverageChecker />
-        </ScrollReveal>
-      </section>
-
-      {/* Supported Providers Band */}
-      <section className="providerBand">
-        <ScrollReveal>
-          <div className="wrap providerRow">
-            <div>
-              <h2>Supported providers</h2>
-              <p>Availability depends on your address and service.</p>
-            </div>
-            <ul>
-              {providers.map(({ name, logo }) => (
-                <li key={name}>
-                  <Image src={logo} alt="" width={86} height={40} />
-                  <span>{name}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
         </ScrollReveal>
       </section>
 
@@ -230,6 +219,9 @@ export default function Home() {
           </div>
         </ScrollReveal>
       </section>
+
+      {/* High-Converting Pre-Footer CTA */}
+      <PreFooterCta />
 
       {/* Frequently Asked Questions with Spring Accordion */}
       <section className="wrap section">

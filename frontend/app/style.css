@@ -192,6 +192,17 @@ a[class*="bg-[#1d4ed8]"] {
   opacity: 0.65;
   cursor: wait;
 }
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+.animate-marquee {
+  animation: marquee 35s linear infinite;
+}
 .mobileMenu {
   display: none;
 }
