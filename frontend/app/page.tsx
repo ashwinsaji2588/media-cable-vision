@@ -17,6 +17,8 @@ import { SpeedCalculator } from "./components/SpeedCalculator";
 import { TvChannelExplorer } from "./components/TvChannelExplorer";
 import { CoverageChecker } from "./components/CoverageChecker";
 import { FaqAccordion } from "./components/FaqAccordion";
+import { ShimmerButton } from "./components/BorderBeam";
+import { InstallationTimeline } from "./components/InstallationTimeline";
 
 export function generateMetadata() {
   return process.env.SITE_URL ? { alternates: { canonical: "/" } } : {};
@@ -56,7 +58,7 @@ export default function Home() {
               available at your address and arrange a connection.
             </p>
             <div className="actions heroActions">
-              <Button href="/new-connection">Request a connection</Button>
+              <ShimmerButton href="/new-connection">Request a connection →</ShimmerButton>
               <div className="heroSupportLinks">
                 <Link href="/report-issue">Report an issue</Link>
                 <Link href="/track-request">Track a request</Link>
@@ -174,52 +176,16 @@ export default function Home() {
         </ScrollReveal>
       </section>
 
-      {/* How it Works with Anime.js Fiber Trail & 3D Process Icons */}
+      {/* How it Works with daisyUI Connected Timeline & OriginKit Motion */}
       <section className="wrap section">
         <ScrollReveal>
-          <h2>How it works</h2>
+          <h2>How installation works</h2>
+          <p className="text-slate-600 text-sm sm:text-base mt-1">
+            From online feasibility check to active fiber optic drop at your premises.
+          </p>
         </ScrollReveal>
 
-        {/* Dynamic Anime.js Fiber Connector */}
-        <FiberTrailAnime />
-
-        <ol className="steps">
-          {[
-            {
-              title: "Send a request",
-              detail:
-                "Choose a service and share your contact and locality details.",
-              icon: "request" as const,
-            },
-            {
-              title: "Hear from our team",
-              detail:
-                "We’ll call to confirm availability or learn more about your issue.",
-              icon: "phone" as const,
-            },
-            {
-              title: "Arrange a visit",
-              detail:
-                "We’ll work with you to arrange a connection or service visit when needed.",
-              icon: "calendar" as const,
-            },
-          ].map((step, i) => (
-            <ScrollReveal key={step.title} delay={i * 0.12}>
-              <li className="card stepCardModern">
-                <div>
-                  <div className="stepIconHeader">
-                    <span className="iconTile" aria-hidden="true">
-                      {i + 1}
-                    </span>
-                    <Icon3D name={step.icon} size={42} animateFloat={false} />
-                  </div>
-                  <h3>{step.title}</h3>
-                  <p>{step.detail}</p>
-                </div>
-              </li>
-            </ScrollReveal>
-          ))}
-        </ol>
+        <InstallationTimeline />
       </section>
 
       {/* Coverage Panel with 3D Location Pin */}

@@ -1,0 +1,44 @@
+name: Continuous Deployment
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: Trigger Automated Deployment
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v5
+
+      - name: Trigger Render Deploy Hook (if configured)
+        if: env.RENDER_DEPLOY_HOOK_URL != ''
+        env:
+          RENDER_DEPLOY_HOOK_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+        run: |
+          echo "Triggering automated deployment webhook on Render..."
+          response=$(curl -s -w "\n%{http_code}" -X POST "$RENDER_DEPLOY_HOOK_URL")
+          http_code=$(echo "$response" | tail -n1)
+          body=$(echo "$response" | sed '$d')
+          echo "Response code: $http_code"
+          if [ "$http_code" -ge 200 ] && [ "$http_code" -lt 300 ]; then
+            echo "Render deployment triggered successfully: $body"
+          else
+            echo "Deploy hook returned code $http_code: $body"
+            exit 1
+          fi
+
+      - name: Deployment Instructions & Status Summary
+        run: |
+          echo "=========================================================="
+          echo "Commit ${{ github.sha }} on 'main' pushed successfully."
+          echo "Render auto-deploys blueprints connected to this repository."
+          echo "To verify live build logs, visit https://dashboard.render.com"
+          echo "=========================================================="
